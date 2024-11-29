@@ -1,11 +1,10 @@
 import requests
-import json
-import platform
 from time import sleep
 import random
 import time
 import os
-from datetime import datetime, timezone, timedelta
+import sys
+from datetime import datetime, timezone, timedelta, UTC
 from pythonping import ping
 
 
@@ -206,7 +205,7 @@ def main():
         for ip, domain in results:
             hosts_content += f"{ip}\t{domain}\n"
                 
-        update_time = (datetime.utcnow().astimezone(timezone(timedelta(hours=8)))).replace(microsecond=0).isoformat()
+        update_time = datetime.now(UTC).astimezone(timezone(timedelta(hours=8))).replace(microsecond=0).isoformat()
         hosts_content = Tmdb_Host_TEMPLATE.format(content=hosts_content, update_time=update_time)
 
         write_file(hosts_content, update_time)

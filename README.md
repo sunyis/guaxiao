@@ -18,21 +18,21 @@
 18.160.41.75	themoviedb.org
 18.160.41.75	www.themoviedb.org
 18.67.65.46	auth.themoviedb.org
-99.86.229.15	tmdb.org
+99.86.229.116	tmdb.org
 3.167.112.111	api.tmdb.org
-138.199.36.7	image.tmdb.org
+169.150.247.35	image.tmdb.org
 99.84.210.185	thetvdb.com
 18.165.76.102	api.thetvdb.com
 
 
-# Update time: 2024-11-29T09:26:40+08:00
+# Update time: 2024-11-29T10:17:53+08:00
 # Update url: https://github.com/cnwikee/CheckTMDB/Tmdb_host
 # Star me: https://github.com/cnwikee/CheckTMDB
 # Tmdb Hosts End
 
 ```
 
-该内容会自动定时更新， 数据更新时间：2024-11-29T09:26:40+08:00
+该内容会自动定时更新， 数据更新时间：2024-11-29T10:17:53+08:00
 
 #### 2.1.2 修改 hosts 文件
 
