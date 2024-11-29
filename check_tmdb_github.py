@@ -24,7 +24,7 @@ Tmdb_Host_TEMPLATE = """# Tmdb Hosts Start
 {content}
 
 # Update time: {update_time}
-# Update url: https://github.com/cnwikee/CheckTMDB/Tmdb_host
+# Update url: https://raw.githubusercontent.com/cnwikee/CheckTMDB/refs/heads/main/Tmdb_host
 # Star me: https://github.com/cnwikee/CheckTMDB
 # Tmdb Hosts End\n"""
 
