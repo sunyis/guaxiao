@@ -14,23 +14,10 @@
 #### 2.1.1 复制下面的内容
 
 ```bash
-# Tmdb Hosts Start #
-18.160.41.75	themoviedb.org
-18.160.41.115	www.themoviedb.org
-18.67.65.26	auth.themoviedb.org
-99.86.229.116	tmdb.org
-3.167.112.71	api.tmdb.org
-169.150.247.35	image.tmdb.org
-99.84.210.185	thetvdb.com
-18.165.76.102	api.thetvdb.com
-# Update time: 2024-11-28T14:08:45+08:00
-# Update url: https://github.com/cnwikee/CheckTMDB/Tmdb_host
-# Star me: https://github.com/cnwikee/CheckTMDB
-# Tmdb Hosts End
-
+{hosts_str}
 ```
 
-该内容会自动定时更新， 数据更新时间：2024-11-28T05:08:45+08:00
+该内容会自动定时更新， 数据更新时间：{update_time}
 
 #### 2.1.2 修改 hosts 文件
 
