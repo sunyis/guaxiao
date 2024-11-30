@@ -5,7 +5,6 @@ import time
 import os
 import sys
 from datetime import datetime, timezone, timedelta
-import socket
 from pythonping import ping
 from retry import retry
 
