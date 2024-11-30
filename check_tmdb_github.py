@@ -102,18 +102,24 @@ def get_domain_ips(domain, csrf_token, udp):
         print(f"获取 {domain} 的IP列表时发生错误: {str(e)}")
         return []
 
-def ping_ip(ip, port=80):
-    """使用TCP连接测试IP地址的延迟（毫秒）"""
-    try:
-        print(f"\n开始 ping {ip}...")
-        start_time = time.time()
-        with socket.create_connection((ip, port), timeout=2) as sock:
-            latency = (time.time() - start_time) * 1000  # 转换为毫秒
-            print(f"IP: {ip} 的平均延迟: {latency}ms")
-            return latency
-    except Exception as e:
-        print(f"Ping {ip} 时发生错误: {str(e)}")
-        return float('inf')
+def ping_ip(ip, port=80, count=3):
+    """使用TCP连接测试IP地址的延迟（毫秒），进行多次连接取平均值"""
+    latencies = []
+    for _ in range(count):
+        try:
+            print(f"\n开始 ping {ip}...")
+            start_time = time.time()
+            with socket.create_connection((ip, port), timeout=2) as sock:
+                latency = (time.time() - start_time) * 1000  # 转换为毫秒
+                latencies.append(latency)
+                print(f"IP: {ip} 的延迟: {latency}ms")
+        except Exception as e:
+            print(f"Ping {ip} 时发生错误: {str(e)}")
+            return float('inf')
+    
+    avg_latency = sum(latencies) / len(latencies) if latencies else float('inf')
+    print(f"IP: {ip} 的平均延迟: {avg_latency}ms")
+    return avg_latency
 
 def find_fastest_ip(ips):
     """找出延迟最低的IP地址"""
