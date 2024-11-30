@@ -36,9 +36,9 @@ jobs:
         
     - name: Run Python script
       run: |
-        sudo python check_tmdb_github.py
+        sudo python check_tmdb_github_ping3.py
         
-    - name: Commit and push if changed
+    - name: Commit 和 push if changed
       run: |
         git config --global user.name 'GitHub Action'
         git config --global user.email 'lostwikee@gmail.com'
