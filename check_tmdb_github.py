@@ -4,7 +4,7 @@ import random
 import time
 import os
 import sys
-from datetime import datetime, timezone, timedelta, UTC
+from datetime import datetime, timezone, timedelta
 from pythonping import ping
 
 
@@ -24,7 +24,7 @@ Tmdb_Host_TEMPLATE = """# Tmdb Hosts Start
 {content}
 
 # Update time: {update_time}
-# Update url: https://raw.githubusercontent.com/cnwikee/CheckTMDB/refs/heads/main/Tmdb_host
+# Update url: https://github.com/cnwikee/CheckTMDB/Tmdb_host
 # Star me: https://github.com/cnwikee/CheckTMDB
 # Tmdb Hosts End\n"""
 
@@ -205,7 +205,7 @@ def main():
         for ip, domain in results:
             hosts_content += f"{ip}\t{domain}\n"
                 
-        update_time = datetime.now(UTC).astimezone(timezone(timedelta(hours=8))).replace(microsecond=0).isoformat()
+        update_time = datetime.now(timezone(timedelta(hours=8))).replace(microsecond=0).isoformat()
         hosts_content = Tmdb_Host_TEMPLATE.format(content=hosts_content, update_time=update_time)
 
         write_file(hosts_content, update_time)
