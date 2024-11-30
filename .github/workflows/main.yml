@@ -20,12 +20,12 @@ jobs:
         
     - name: Install dependencies
       run: |
-        sudo python -m pip install --upgrade pip
-        sudo pip install -r requirements.txt
+        python -m pip install --upgrade pip
+        pip install -r requirements.txt
         
     - name: Run Python script
       run: |
-        sudo python check_tmdb_github.py
+        python check_tmdb_github.py
         
     - name: Commit 和 push if changed
       run: |
