@@ -5,8 +5,8 @@ import time
 import os
 import sys
 from datetime import datetime, timezone, timedelta
-from pythonping import ping
 from retry import retry
+import socket
 
 DOMAINS = [
     'themoviedb.org',
@@ -102,19 +102,15 @@ def get_domain_ips(domain, csrf_token, udp):
         print(f"获取 {domain} 的IP列表时发生错误: {str(e)}")
         return []
 
-def ping_ip(ip):
-    """ping IP地址并返回延迟时间（毫秒），ping 3次取平均值"""
+def ping_ip(ip, port=80):
+    """使用TCP连接测试IP地址的延迟（毫秒）"""
     try:
         print(f"\n开始 ping {ip}...")
-        ping_result = ping(ip, count=3, timeout=2)
-        rtt_avg = ping_result.rtt_avg_ms
-        
-        if rtt_avg >= 2000:
-            print(f"IP: {ip} ping 超时")
-            return float('inf')
-            
-        print(f"IP: {ip} 的平均延迟: {rtt_avg}ms")
-        return rtt_avg
+        start_time = time.time()
+        with socket.create_connection((ip, port), timeout=2) as sock:
+            latency = (time.time() - start_time) * 1000  # 转换为毫秒
+            print(f"IP: {ip} 的平均延迟: {latency}ms")
+            return latency
     except Exception as e:
         print(f"Ping {ip} 时发生错误: {str(e)}")
         return float('inf')
