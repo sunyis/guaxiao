@@ -1,2 +1,2 @@
 requests>=2.31.0
-pythonping>=1.1.4
+pythonping==1.1.4

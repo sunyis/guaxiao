@@ -5,10 +5,9 @@ import time
 import os
 import sys
 from datetime import datetime, timezone, timedelta
+import socket
 from pythonping import ping
 
-
-# 需要检测的域名列表
 DOMAINS = [
     'themoviedb.org',
     'www.themoviedb.org',
@@ -60,10 +59,7 @@ def write_host_file(hosts_content: str) -> None:
 def get_csrf_token(udp):
     """获取CSRF Token"""
     try:
-        # 构建带有 udp 参数的 URL
         url = f'https://dnschecker.org/ajax_files/gen_csrf.php?udp={udp}'
-        
-        # 添加 headers
         headers = {
             'referer': 'https://dnschecker.org/country/cn/'
         }
@@ -82,27 +78,18 @@ def get_csrf_token(udp):
 
 
 def get_domain_ips(domain, csrf_token, udp):
-    """获取域名对应的IP列表"""
     url = f'https://dnschecker.org/ajax_files/api/364/A/{domain}?dns_key=country&dns_value=cn&v=0.36&cd_flag=1&upd={udp}'
     headers = {'csrftoken': csrf_token, 'referer':'https://dnschecker.org/country/cn/'}
     
     try:
-        #print(f"\n请求URL: {url}")
-        #print(f"请求Headers: {headers}")
-        
         response = requests.get(url, headers=headers)
-        #print(f"响应状态码: {response.status_code}")
-        #print(f"响应内容: {response.text}")
-        
         if response.status_code == 200:
             data = response.json()
             if 'result' in data and 'ips' in data['result']:
-                # 处理 ips 字符串
                 ips_str = data['result']['ips']
                 if '<br />' in ips_str:
                     return [ip.strip() for ip in ips_str.split('<br />') if ip.strip()]
                 else:
-                    # 处理单个 IP 的情况
                     return [ips_str.strip()] if ips_str.strip() else []
             else:
                 print(f"获取 {domain} 的IP列表失败：返回数据格式不正确")
@@ -118,35 +105,17 @@ def ping_ip(ip):
     """ping IP地址并返回延迟时间（毫秒），ping 3次取平均值"""
     try:
         print(f"\n开始 ping {ip}...")
-        # 使用pythonping进行ping测试，增加重试次数和超时时间
-        ping_result = ping(ip, count=5, timeout=3, verbose=True)
+        ping_result = ping(ip, count=3, timeout=2)
+        rtt_avg = ping_result.rtt_avg_ms
         
-        print(f"Ping 结果详情：")
-        print(f"- 成功状态: {ping_result.success()}")
-        print(f"- 平均延迟: {ping_result.rtt_avg_ms}ms")
-        
-        # 检查是否超时
-        if ping_result.rtt_avg_ms >= 3000:  # 超时时间 * 1000
-            print(f"Ping {ip} 超时")
+        if rtt_avg >= 2000:
+            print(f"IP: {ip} ping 超时")
             return float('inf')
             
-        if ping_result.success():
-            avg_latency = ping_result.rtt_avg_ms
-            print(f"IP: {ip} 的平均延迟: {avg_latency}ms")
-            return avg_latency
-        else:
-            print(f"Ping {ip} 失败，无响应")
-            return float('inf')
-    except AttributeError as ae:
-        # 忽略 packets 属性相关的错误，继续处理
-        if "'ResponseList' object has no attribute 'packets'" in str(ae):
-            if hasattr(ping_result, 'rtt_avg_ms') and ping_result.rtt_avg_ms < 3000:
-                return ping_result.rtt_avg_ms
-        print(f"Ping {ip} 属性错误: {str(ae)}")
-        return float('inf')
+        print(f"IP: {ip} 的平均延迟: {rtt_avg}ms")
+        return rtt_avg
     except Exception as e:
         print(f"Ping {ip} 时发生错误: {str(e)}")
-        print(f"错误类型: {type(e)}")
         return float('inf')
 
 def find_fastest_ip(ips):
@@ -172,9 +141,8 @@ def find_fastest_ip(ips):
             min_latency = latency
             fastest_ip = ip
             
-        sleep(0.5)  # 避免过快发送ping请求
+        sleep(0.5) 
     
-    # 打印所有IP的延迟情况
     print("\n所有IP延迟情况:")
     for ip, latency in ip_latencies:
         print(f"IP: {ip} - 延迟: {latency}ms")
@@ -186,10 +154,7 @@ def find_fastest_ip(ips):
 
 def main():
     print("开始检测TMDB相关域名的最快IP...")
-    
-    # 计算 udp 参数
     udp = random.random() * 1000 + (int(time.time() * 1000) % 1000)
-    
     # 获取CSRF Token
     csrf_token = get_csrf_token(udp)
     if not csrf_token:
@@ -197,18 +162,13 @@ def main():
         sys.exit(1)
     
     results = []
-    
-    # 处理每个域名
     for domain in DOMAINS:
         print(f"\n正在处理域名: {domain}")
-        
-        # 获取IP列表
         ips = get_domain_ips(domain, csrf_token, udp)
         if not ips:
             print(f"无法获取 {domain} 的IP列表，跳过该域名")
             continue
             
-        # 找出最快的IP
         fastest_ip = find_fastest_ip(ips)
         if fastest_ip:
             results.append([fastest_ip, domain])
