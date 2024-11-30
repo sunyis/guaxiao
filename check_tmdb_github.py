@@ -7,6 +7,7 @@ import sys
 from datetime import datetime, timezone, timedelta
 import socket
 from pythonping import ping
+from retry import retry
 
 DOMAINS = [
     'themoviedb.org',
@@ -56,6 +57,7 @@ def write_host_file(hosts_content: str) -> None:
         output_fb.write(hosts_content)
         print("\n~最新TMDB最快IP已更新~")
 
+@retry(tries=3)
 def get_csrf_token(udp):
     """获取CSRF Token"""
     try:
@@ -76,7 +78,7 @@ def get_csrf_token(udp):
         print(f"获取CSRF Token时发生错误: {str(e)}")
         return None
 
-
+@retry(tries=3)
 def get_domain_ips(domain, csrf_token, udp):
     url = f'https://dnschecker.org/ajax_files/api/364/A/{domain}?dns_key=country&dns_value=cn&v=0.36&cd_flag=1&upd={udp}'
     headers = {'csrftoken': csrf_token, 'referer':'https://dnschecker.org/country/cn/'}
