@@ -118,14 +118,18 @@ def ping_ip(ip):
     """ping IP地址并返回延迟时间（毫秒），ping 3次取平均值"""
     try:
         print(f"\n开始 ping {ip}...")
-        # 使用pythonping进行ping测试
-        ping_result = ping(ip, count=3, timeout=2, verbose=True)
+        # 使用pythonping进行ping测试，增加重试次数和超时时间
+        ping_result = ping(ip, count=5, timeout=3, verbose=True)
         
         print(f"Ping 结果详情：")
         print(f"- 成功状态: {ping_result.success()}")
         print(f"- 平均延迟: {ping_result.rtt_avg_ms}ms")
-        print(f"- 原始响应: {ping_result.packets}")
         
+        # 检查是否超时
+        if ping_result.rtt_avg_ms >= 3000:  # 超时时间 * 1000
+            print(f"Ping {ip} 超时")
+            return float('inf')
+            
         if ping_result.success():
             avg_latency = ping_result.rtt_avg_ms
             print(f"IP: {ip} 的平均延迟: {avg_latency}ms")
@@ -133,10 +137,16 @@ def ping_ip(ip):
         else:
             print(f"Ping {ip} 失败，无响应")
             return float('inf')
+    except AttributeError as ae:
+        # 忽略 packets 属性相关的错误，继续处理
+        if "'ResponseList' object has no attribute 'packets'" in str(ae):
+            if hasattr(ping_result, 'rtt_avg_ms') and ping_result.rtt_avg_ms < 3000:
+                return ping_result.rtt_avg_ms
+        print(f"Ping {ip} 属性错误: {str(ae)}")
+        return float('inf')
     except Exception as e:
         print(f"Ping {ip} 时发生错误: {str(e)}")
         print(f"错误类型: {type(e)}")
-        print(f"完整错误信息: {repr(e)}")
         return float('inf')
 
 def find_fastest_ip(ips):
