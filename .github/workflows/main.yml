@@ -1,0 +1,46 @@
+name: Check TMDB IP
+
+on:
+  schedule:
+    - cron: '0 6,18 * * *'  # 每天 6:00 和 18:00 执行
+  workflow_dispatch:
+    inputs:
+      debug-enabled:
+        description: '是否启用调试模式'
+        required: false
+        default: 'false'
+        type: boolean
+      force-update:
+        description: '强制更新 IP（即使没有变化）'
+        required: false
+        default: 'false'
+        type: boolean
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v3
+      
+    - name: Set up Python
+      uses: actions/setup-python@v2
+      with:
+        python-version: '3.10'
+        
+    - name: Install dependencies
+      run: |
+        sudo python -m pip install --upgrade pip
+        sudo pip install -r requirements.txt
+        
+    - name: Run Python script
+      run: |
+        sudo python check_tmdb_github.py
+        
+    - name: Commit and push if changed
+      run: |
+        git config --global user.name 'GitHub Action'
+        git config --global user.email 'lostwikee@gmail.com'
+        git add README.md Tmdb_host
+        git diff --quiet && git diff --staged --quiet || (git commit -m "Update TMDB IP [skip ci]" && git push)
