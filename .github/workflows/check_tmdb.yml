@@ -3,7 +3,18 @@ name: Check TMDB IP
 on:
   schedule:
     - cron: '0 3,18 * * *'  # 每天 3:00 和 18:00 执行
-  workflow_dispatch:  # 允许手动触发
+  workflow_dispatch:
+    inputs:
+      debug-enabled:
+        description: '是否启用调试模式'
+        required: false
+        default: 'false'
+        type: boolean
+      force-update:
+        description: '强制更新 IP（即使没有变化）'
+        required: false
+        default: 'false'
+        type: boolean
 
 jobs:
   check-tmdb:
@@ -27,9 +38,9 @@ jobs:
       run: |
         python check_tmdb_github.py
         
-    - name: Commit 和 push if changed
+    - name: Commit and push if changed
       run: |
         git config --global user.name 'GitHub Action'
-        git config --global user.email 'lostwikee@gmail.com'
+        git config --global user.email 'action@github.com'
         git add README.md Tmdb_host
         git diff --quiet && git diff --staged --quiet || (git commit -m "Update TMDB IP [skip ci]" && git push)
