@@ -1,0 +1,13 @@
+name: Ping IP Address
+ 
+on:
+  push:
+  workflow_dispatch:
+ 
+jobs:
+  ping_test:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Ping IP Address
+      run: |
+        ping -c 3 '3.171.100.86'
