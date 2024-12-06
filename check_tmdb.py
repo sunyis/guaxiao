@@ -58,7 +58,7 @@ def write_host_file(hosts_content: str) -> None:
 
 def get_github_hosts(hosts_content: str) -> None:
     try:
-        github_hosts_url = "https://raw.githubusercontent.com/521xueweihan/GitHub520/refs/heads/main/hosts"
+        github_hosts_url = "https://hosts.gitcdn.top/hosts.txt"
         response = requests.get(github_hosts_url)
         if response.status_code == 200:
             github_hosts = response.text
