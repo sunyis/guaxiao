@@ -3,6 +3,7 @@ name: Check TMDB IP
 on:
   schedule:
     - cron: '0 6,18 * * *'  # 每天 6:00 和 18:00 执行
+    workflow_dispatch:
 
 permissions:
   contents: write  # 确保有写入权限
@@ -27,14 +28,14 @@ jobs:
         
     - name: Run Python script
       run: |
-        sudo python check_tmdb_github.py
+        sudo python check_tmdb.py
         
     - name: 提交更改
       run: |
          git config --global user.name 'GitHub Action'
          git config --global user.email 'action@github.com'
          git add README.md Tmdb_host
-         git commit -m "Update TMDB IP [skip ci]" || echo "No changes to commit"
+         git commit -m "Update TMDB IP [action]" || echo "No changes to commit"
       continue-on-error: true
 
     - name: Push changes
