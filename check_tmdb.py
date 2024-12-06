@@ -2,12 +2,10 @@ import requests
 from time import sleep
 import random
 import time
-import os
 import sys
 from datetime import datetime, timezone, timedelta
 from retry import retry
 import socket
-from ping3 import ping  # 确保在函数内导入ping3库
 
 DOMAINS = [
     'themoviedb.org',
@@ -145,22 +143,6 @@ def ping_ip(ip, port=80):
         print(f"Ping {ip} 时发生错误: {str(e)}")
         return float('inf')
     
-def ping3_ip(ip):
-    print(f"使用ping3库测试IP地址的延迟（毫秒）")
-    try:
-        print(f"\n开始 ping {ip}...")
-        latency = ping(ip, timeout=2)  # 使用ping3库进行ping操作
-        
-        if latency is None:
-            print(f"IP: {ip} ping 超时")
-            return float('inf')
-        
-        print(f"IP: {ip} 的平均延迟: {latency * 1000}ms")  # 转换为毫秒
-        return latency * 1000  # 返回延迟，转换为毫秒
-    except Exception as e:
-        print(f"Ping {ip} 时发生错误: {str(e)}")
-        return float('inf')
-
 def find_fastest_ip(ips):
     """找出延迟最低的IP地址"""
     if not ips:
@@ -176,7 +158,7 @@ def find_fastest_ip(ips):
             continue
             
         print(f"正在测试 IP: {ip}")
-        latency = ping_ip(ip) if is_ci_environment() else ping3_ip(ip)
+        latency = ping_ip(ip)
         ip_latencies.append((ip, latency))
         print(f"IP: {ip} 延迟: {latency}ms")
         
