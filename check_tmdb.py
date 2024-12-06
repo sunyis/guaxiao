@@ -73,8 +73,18 @@ def get_github_hosts(hosts_content: str) -> None:
     except Exception as e:
         print(f"\n获取GitHub hosts时发生错误: {str(e)}")
 
-def is_running_on_github_actions():
-    return os.getenv('GITHUB_ACTIONS') == 'true'
+def is_ci_environment():
+    ci_environment_vars = {
+        'GITHUB_ACTIONS': 'true',
+        'TRAVIS': 'true',
+        'CIRCLECI': 'true'
+    }
+    for env_var, expected_value in ci_environment_vars.items():
+        env_value = os.getenv(env_var)
+        if env_value is not None and str(env_value).lower() == expected_value.lower():
+            return True
+    return False
+    
 
 @retry(tries=3)
 def get_csrf_token(udp):
@@ -166,7 +176,7 @@ def find_fastest_ip(ips):
             continue
             
         print(f"正在测试 IP: {ip}")
-        latency = ping_ip(ip) if is_running_on_github_actions() else ping3_ip(ip)
+        latency = ping_ip(ip) if is_ci_environment() else ping3_ip(ip)
         ip_latencies.append((ip, latency))
         print(f"IP: {ip} 延迟: {latency}ms")
         
