@@ -57,20 +57,31 @@ def write_host_file(hosts_content: str) -> None:
         print("\n~最新TMDB最快IP已更新~")
 
 def get_github_hosts(hosts_content: str) -> None:
-    try:
-        github_hosts_url = "https://hosts.gitcdn.top/hosts.txt"
-        response = requests.get(github_hosts_url)
-        if response.status_code == 200:
-            github_hosts = response.text
-            output_file_path = os.path.join(os.path.dirname(__file__), 'Tmdb_Github_host')
-            combined_hosts = hosts_content + "\n\n# GitHub520 Hosts Start\n" + github_hosts
-            with open(output_file_path, "w", encoding='utf-8') as output_fb:
-                output_fb.write(combined_hosts)
-            print("\n~GitHub hosts已更新并合并~")
-        else:
-            print(f"\n获取GitHub hosts失败: HTTP {response.status_code}")
-    except Exception as e:
-        print(f"\n获取GitHub hosts时发生错误: {str(e)}")
+    github_hosts_urls = [
+        "https://hosts.gitcdn.top/hosts.txt",
+        "https://raw.githubusercontent.com/521xueweihan/GitHub520/refs/heads/main/hosts",
+        "https://gitlab.com/ineo6/hosts/-/raw/master/next-hosts",
+        "https://raw.githubusercontent.com/ittuann/GitHub-IP-hosts/refs/heads/main/hosts_single"
+    ]
+    all_failed = True
+    for url in github_hosts_urls:
+        try:
+            response = requests.get(url)
+            if response.status_code == 200:
+                github_hosts = response.text
+                output_file_path = os.path.join(os.path.dirname(__file__), 'Tmdb_Github_host')
+                combined_hosts = hosts_content + "\n" + github_hosts
+                with open(output_file_path, "w", encoding='utf-8') as output_fb:
+                    output_fb.write(combined_hosts)
+                print("\n~GitHub hosts已更新并合并~")
+                all_failed = False
+                break
+            else:
+                print(f"\n从 {url} 获取GitHub hosts失败: HTTP {response.status_code}")
+        except Exception as e:
+            print(f"\n从 {url} 获取GitHub hosts时发生错误: {str(e)}")
+    if all_failed:
+        print("\n获取GitHub hosts失败: 所有Url项目失败！")
 
 def is_ci_environment():
     ci_environment_vars = {
