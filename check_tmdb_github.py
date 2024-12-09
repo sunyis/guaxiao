@@ -12,6 +12,7 @@ DOMAINS = [
     'themoviedb.org',
     'www.themoviedb.org',
     'auth.themoviedb.org',
+    'api.themoviedb.org',
     'tmdb.org',
     'api.tmdb.org',
     'image.tmdb.org',
