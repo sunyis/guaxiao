@@ -23,9 +23,6 @@ jobs:
         
     - name: Install dependencies
       run: |
-        sudo apt remove python3-pip
-        sudo python -m ensurepip --upgrade
-        sudo python -m pip install --upgrade pip
         if [ -f requirements.txt ]; then sudo pip install -r requirements.txt; fi
         
     - name: Run Python script
