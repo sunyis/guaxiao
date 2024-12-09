@@ -7,6 +7,10 @@
 
 通过修改本地、路由器 hosts 文件，即可正常削刮影片信息。
 
+## 文件地址
+- tmdb hosts文件：`https://github.com/cnwikee/CheckTMDB/blob/main/Tmdb_host` ，[链接](https://github.com/cnwikee/CheckTMDB/blob/main/Tmdb_host)
+- 合并 tmdb 和 Github 的hosts文件：`https://github.com/cnwikee/CheckTMDB/blob/main/Tmdb_Github_host` ，[链接](https://github.com/cnwikee/CheckTMDB/blob/main/Tmdb_Github_host)
+
 ## 二、使用方法
 
 ### 2.1 手动方式
@@ -15,23 +19,24 @@
 
 ```bash
 # Tmdb Hosts Start
-3.171.100.55	themoviedb.org
-3.171.100.3	www.themoviedb.org
-18.67.65.26	auth.themoviedb.org
-99.86.229.92	tmdb.org
-3.167.112.111	api.tmdb.org
-169.150.247.33	image.tmdb.org
-99.84.210.185	thetvdb.com
-18.165.76.102	api.thetvdb.com
+18.154.144.73	themoviedb.org
+18.154.144.22	www.themoviedb.org
+18.154.132.71	auth.themoviedb.org
+3.167.212.23	api.themoviedb.org
+13.225.142.52	tmdb.org
+3.167.192.35	api.tmdb.org
+169.150.249.166	image.tmdb.org
+18.154.130.110	thetvdb.com
+3.167.194.87	api.thetvdb.com
 
-# Update time: 2024-12-09T11:39:06+08:00
-# Update url: https://github.com/cnwikee/CheckTMDB/Tmdb_host
+# Update time: 2024-12-09T12:48:28+08:00
+# Update url: https://github.com/cnwikee/CheckTMDB/blob/main/Tmdb_host
 # Star me: https://github.com/cnwikee/CheckTMDB
 # Tmdb Hosts End
 
 ```
 
-该内容会自动定时更新， 数据更新时间：2024-12-09T11:39:06+08:00
+该内容会自动定时更新， 数据更新时间：2024-12-09T12:48:28+08:00
 
 #### 2.1.2 修改 hosts 文件
 
