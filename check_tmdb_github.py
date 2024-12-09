@@ -22,7 +22,7 @@ DOMAINS = [
 Tmdb_Host_TEMPLATE = """# Tmdb Hosts Start
 {content}
 # Update time: {update_time}
-# Update url: https://github.com/cnwikee/CheckTMDB/Tmdb_host
+# Update url: https://github.com/cnwikee/CheckTMDB/blob/main/Tmdb_host
 # Star me: https://github.com/cnwikee/CheckTMDB
 # Tmdb Hosts End\n"""
 
