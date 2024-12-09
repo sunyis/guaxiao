@@ -7,6 +7,10 @@
 
 通过修改本地、路由器 hosts 文件，即可正常削刮影片信息。
 
+## 文件地址
+- tmdb hosts文件：`https://github.com/cnwikee/CheckTMDB/blob/main/Tmdb_host` ，[链接](https://github.com/cnwikee/CheckTMDB/blob/main/Tmdb_host)
+- 合并 tmdb 和 Github 的hosts文件：`https://github.com/cnwikee/CheckTMDB/blob/main/Tmdb_Github_host` ，[链接](https://github.com/cnwikee/CheckTMDB/blob/main/Tmdb_Github_host)
+
 ## 二、使用方法
 
 ### 2.1 手动方式
