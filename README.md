@@ -19,24 +19,24 @@
 
 ```bash
 # Tmdb Hosts Start
-18.66.122.75	themoviedb.org
-18.66.122.75	www.themoviedb.org
-3.160.150.105	auth.themoviedb.org
-18.66.233.6	api.themoviedb.org
-13.32.121.129	tmdb.org
-18.244.102.55	api.tmdb.org
-143.244.50.212	image.tmdb.org
-108.138.20.106	thetvdb.com
-18.66.115.103	api.thetvdb.com
+18.244.102.70	themoviedb.org
+18.244.102.13	www.themoviedb.org
+18.244.146.11	auth.themoviedb.org
+13.227.146.48	api.themoviedb.org
+13.227.146.126	tmdb.org
+18.244.102.106	api.tmdb.org
+143.244.50.210	image.tmdb.org
+18.244.110.103	thetvdb.com
+18.66.225.111	api.thetvdb.com
 
-# Update time: 2024-12-15T18:23:14+08:00
+# Update time: 2024-12-16T06:21:10+08:00
 # Update url: https://github.com/cnwikee/CheckTMDB/blob/main/Tmdb_host
 # Star me: https://github.com/cnwikee/CheckTMDB
 # Tmdb Hosts End
 
 ```
 
-该内容会自动定时更新， 数据更新时间：2024-12-15T18:23:14+08:00
+该内容会自动定时更新， 数据更新时间：2024-12-16T06:21:10+08:00
 
 #### 2.1.2 修改 hosts 文件
 
