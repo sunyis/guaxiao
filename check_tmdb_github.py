@@ -23,41 +23,65 @@ DOMAINS = [
 Tmdb_Host_TEMPLATE = """# Tmdb Hosts Start
 {content}
 # Update time: {update_time}
-# Update url: https://github.com/cnwikee/CheckTMDB/blob/main/Tmdb_host
+# IPv4 Update url: https://github.com/cnwikee/CheckTMDB/blob/main/Tmdb_host_ipv4
+# IPv6 Update url: https://github.com/cnwikee/CheckTMDB/blob/main/Tmdb_host_ipv6
 # Star me: https://github.com/cnwikee/CheckTMDB
 # Tmdb Hosts End\n"""
 
-def write_file(hosts_content: str, update_time: str) -> bool:
+def write_file(ipv4_hosts_content: str, ipv6_hosts_content: str, update_time: str) -> bool:
     output_doc_file_path = os.path.join(os.path.dirname(__file__), "README.md")
     template_path = os.path.join(os.path.dirname(__file__), "README_template.md")
-    write_host_file(hosts_content)
-    get_github_hosts(hosts_content)
+    
     if os.path.exists(output_doc_file_path):
         with open(output_doc_file_path, "r", encoding='utf-8') as old_readme_md:
-            old_hosts_content = old_readme_md.read()
+            old_hosts_content = old_readme_md.read()            
             if old_hosts_content:
-                old_hosts = old_hosts_content.split("```bash")[1].split("```")[0].strip()
-                old_hosts = old_hosts.split("# Update time:")[0].strip()
-                hosts_content_hosts = hosts_content.split("# Update time:")[0].strip()
-                if old_hosts == hosts_content_hosts:
-                    print("host not change")
-                    return False
+                old_ipv4_hosts_str = old_hosts_content.split("```bash")[1].split("```")[0].strip()
+                old_ipv4_hosts_str = old_ipv4_hosts_str.split("# Update time:")[0].strip()
 
-    with open(template_path, "r", encoding='utf-8') as temp_fb:
-        template_str = temp_fb.read()
-        hosts_content = template_str.format(hosts_str=hosts_content,
-                                            update_time=update_time)
-        with open(output_doc_file_path, "w", encoding='utf-8') as output_fb:
-            output_fb.write(hosts_content)
-    return True
+                old_ipv6_hosts_str = old_hosts_content.split("```bash")[2].split("```")[0].strip()
+                old_ipv6_hosts_str = old_ipv6_hosts_str.split("# Update time:")[0].strip()
+                
+                if ipv4_hosts_content != "":
+                    new_ipv4_hosts = ipv4_hosts_content.split("# Update time:")[0].strip()
+                    if old_ipv4_hosts_str == new_ipv4_hosts:
+                        print("ipv4 host not change")
+                        w_ipv4_hosts = old_ipv4_hosts_str
+                    else:
+                        w_ipv4_hosts = new_ipv4_hosts
+                        write_host_file(ipv4_hosts_content, 'ipv4')
 
-def write_host_file(hosts_content: str) -> None:
-    output_file_path = os.path.join(os.path.dirname(__file__), 'Tmdb_host')
+                if ipv6_hosts_content != "":
+                    new_ipv6_hosts = ipv6_hosts_content.split("# Update time:")[0].strip()
+                    if old_ipv6_hosts_str == new_ipv6_hosts:
+                        print("ipv6 host not change")
+                        w_ipv6_hosts = old_ipv6_hosts_str
+                    else:
+                        w_ipv6_hosts = new_ipv6_hosts
+                        write_host_file(ipv6_hosts_content, 'ipv6')
+
+                
+                with open(template_path, "r", encoding='utf-8') as temp_fb:
+                    template_str = temp_fb.read()
+                    hosts_content = template_str.format(ipv4_hosts_str=w_ipv4_hosts, ipv6_hosts_str=w_ipv6_hosts, update_time=update_time)
+
+                    with open(output_doc_file_path, "w", encoding='utf-8') as output_fb:
+                        output_fb.write(hosts_content)
+                return True
+        return False
+               
+                
+
+def write_host_file(hosts_content: str, filename: str) -> None:
+    output_file_path = os.path.join(os.path.dirname(__file__), "Tmdb_host_" + filename)
+    if len(sys.argv) >= 2 and sys.argv[1].upper() == '-G':
+        print("\n~追加Github ip~")
+        hosts_content = hosts_content + "\n" + (get_github_hosts() or "")
     with open(output_file_path, "w", encoding='utf-8') as output_fb:
         output_fb.write(hosts_content)
-        print("\n~最新TMDB最快IP已更新~")
+        print("\n~最新TMDB" + filename + "地址已更新~")
 
-def get_github_hosts(hosts_content: str) -> None:
+def get_github_hosts() -> None:
     github_hosts_urls = [
         "https://hosts.gitcdn.top/hosts.txt",
         "https://raw.githubusercontent.com/521xueweihan/GitHub520/refs/heads/main/hosts",
@@ -70,11 +94,6 @@ def get_github_hosts(hosts_content: str) -> None:
             response = requests.get(url)
             if response.status_code == 200:
                 github_hosts = response.text
-                output_file_path = os.path.join(os.path.dirname(__file__), 'Tmdb_Github_host')
-                combined_hosts = hosts_content + "\n" + github_hosts
-                with open(output_file_path, "w", encoding='utf-8') as output_fb:
-                    output_fb.write(combined_hosts)
-                print("\n~GitHub hosts已更新并合并~")
                 all_failed = False
                 break
             else:
@@ -83,6 +102,9 @@ def get_github_hosts(hosts_content: str) -> None:
             print(f"\n从 {url} 获取GitHub hosts时发生错误: {str(e)}")
     if all_failed:
         print("\n获取GitHub hosts失败: 所有Url项目失败！")
+        return
+    else:
+        return github_hosts
 
 def is_ci_environment():
     ci_environment_vars = {
@@ -119,8 +141,8 @@ def get_csrf_token(udp):
         return None
 
 @retry(tries=3)
-def get_domain_ips(domain, csrf_token, udp):
-    url = f'https://dnschecker.org/ajax_files/api/363/A/{domain}?dns_key=country&dns_value=cn&v=0.36&cd_flag=1&upd={udp}'
+def get_domain_ips(domain, csrf_token, udp, argument):
+    url = f'https://dnschecker.org/ajax_files/api/363/{argument}/{domain}?dns_key=country&dns_value=cn&v=0.36&cd_flag=1&upd={udp}'
     headers = {'csrftoken': csrf_token, 'referer':'https://dnschecker.org/country/cn/','User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36 Edg/131.0.0.0'}
     
     try:
@@ -198,39 +220,47 @@ def main():
     if not csrf_token:
         print("无法获取CSRF Token，程序退出")
         sys.exit(1)
-    
-    results = []
+
+    ipv4_ips, ipv6_ips, ipv4_results, ipv6_results = [], [], [], []
+
     for domain in DOMAINS:
-        print(f"\n正在处理域名: {domain}")
-        ips = get_domain_ips(domain, csrf_token, udp)
-        if not ips:
+        print(f"\n正在处理域名: {domain}")       
+        ipv4_ips = get_domain_ips(domain, csrf_token, udp, "A")
+        ipv6_ips = get_domain_ips(domain, csrf_token, udp, "AAAA")
+
+        if not ipv4_ips and not ipv6_ips:
             print(f"无法获取 {domain} 的IP列表，跳过该域名")
             continue
-            
-        fastest_ip = find_fastest_ip(ips)
-        if fastest_ip:
-            results.append([fastest_ip, domain])
-            print(f"域名 {domain} 的最快IP是: {fastest_ip}")
-        else:
-            print(f"未能找到 {domain} 的可用IP")
+        
+        # 处理 IPv4 地址
+        if ipv4_ips:
+            fastest_ipv4 = find_fastest_ip(ipv4_ips)
+            if fastest_ipv4:
+                ipv4_results.append([fastest_ipv4, domain])
+                print(f"域名 {domain} 的最快IPv4是: {fastest_ipv4}")
+        
+        # 处理 IPv6 地址
+        if ipv6_ips:
+            fastest_ipv6 = find_fastest_ip(ipv6_ips)
+            if fastest_ipv6:
+                ipv6_results.append([fastest_ipv6, domain])
+                print(f"域名 {domain} 的最快IPv6是: {fastest_ipv6}")
         
         sleep(1)  # 避免请求过于频繁
     
     # 保存结果到文件
-    hosts_content = ""
-    if results:
-        for ip, domain in results:
-            hosts_content += f"{ip}\t{domain}\n"
-                
-        update_time = datetime.now(timezone(timedelta(hours=8))).replace(microsecond=0).isoformat()
-        hosts_content = Tmdb_Host_TEMPLATE.format(content=hosts_content, update_time=update_time)
+    if not ipv4_results and not ipv6_results:
+        print(f"程序出错：未获取任何domain及对应IP，请检查接口~")
+        sys.exit(1)
 
-        write_file(hosts_content, update_time)
-    else:
-        print("\nError: 未能正确获取解析结果。")
-
-
+    # 生成更新时间
+    update_time = datetime.now(timezone(timedelta(hours=8))).replace(microsecond=0).isoformat()
     
+    ipv4_hosts_content = Tmdb_Host_TEMPLATE.format(content="\n".join(f"{ip:<27} {domain}" for ip, domain in ipv4_results), update_time=update_time) if ipv4_results else ""
+    ipv6_hosts_content = Tmdb_Host_TEMPLATE.format(content="\n".join(f"{ip:<50} {domain}" for ip, domain in ipv6_results), update_time=update_time) if ipv6_results else ""
+
+    write_file(ipv4_hosts_content, ipv6_hosts_content, update_time)
+
 
 if __name__ == "__main__":
     main()

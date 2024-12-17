@@ -1,6 +1,9 @@
 # CheckTMDB
+
 每日自动更新TMDB，themoviedb 国内可正常连接IP，解决DNS污染，供tinyMediaManager(TMM削刮器)、kodi削刮等正常削刮影片信息。
+
 ## 一、前景
+
 自从我早两年使用了黑群NAS以后，下了好多的电影电视剧，发现电视端无法生成正常的海报墙。查找资料得知应该是 themoviedb.org、tmdb.org 数据库网站无法正常解析访问照成的，故依葫芦画瓢写了一个python脚本，每日定时通过[dnschecker](https://dnschecker.org/)查询出最佳IP，并自动同步到路由器外挂hosts，可正常削刮。
 
 **本项目无需安装任何程序**
@@ -8,24 +11,34 @@
 通过修改本地、路由器 hosts 文件，即可正常削刮影片信息。
 
 ## 文件地址
-- tmdb hosts文件：`https://github.com/cnwikee/CheckTMDB/blob/main/Tmdb_host` ，[链接](https://github.com/cnwikee/CheckTMDB/blob/main/Tmdb_host)
-- 合并 tmdb 和 Github 的hosts文件：`https://github.com/cnwikee/CheckTMDB/blob/main/Tmdb_Github_host` ，[链接](https://github.com/cnwikee/CheckTMDB/blob/main/Tmdb_Github_host)
+
+- tmdb ipv4 hosts文件：`https://github.com/cnwikee/CheckTMDB/blob/main/Tmdb_host_ipv4` ，[链接](https://github.com/cnwikee/CheckTMDB/blob/main/Tmdb_host_ipv4)
+- tmdb ipv6 hosts：`https://github.com/cnwikee/CheckTMDB/blob/main/Tmdb_host_ipv6` ，[链接](https://github.com/cnwikee/CheckTMDB/blob/main/Tmdb_host_ipv6)
 
 ## 二、使用方法
 
 ### 2.1 手动方式
 
-#### 2.1.1 复制下面的内容
+#### 2.1.1 IPv4地址复制下面的内容
 
 ```bash
-{hosts_str}
+{ipv4_hosts_str}
 ```
 
 该内容会自动定时更新， 数据更新时间：{update_time}
 
-#### 2.1.2 修改 hosts 文件
+#### 2.1.2 IPv6地址复制下面的内容
+
+```bash
+{ipv6_hosts_str}
+```
+
+该内容会自动定时更新， 数据更新时间：{update_time}
+
+#### 2.1.3 修改 hosts 文件
 
 hosts 文件在每个系统的位置不一，详情如下：
+
 - Windows 系统：`C:\Windows\System32\drivers\etc\hosts`
 - Linux 系统：`/etc/hosts`
 - Mac（苹果电脑）系统：`/etc/hosts`
@@ -38,7 +51,8 @@ hosts 文件在每个系统的位置不一，详情如下：
 2. Linux、Mac 使用 Root 权限：`sudo vi /etc/hosts`。
 3. iPhone、iPad 须越狱、Android 必须要 root。
 
-#### 2.1.3 激活生效
+#### 2.1.4 激活生效
+
 大部分情况下是直接生效，如未生效可尝试下面的办法，刷新 DNS：
 
 1. Windows：在 CMD 窗口输入：`ipconfig /flushdns`
@@ -49,7 +63,13 @@ hosts 文件在每个系统的位置不一，详情如下：
 
 **Tips：** 上述方法无效可以尝试重启机器。
 
+## 三、参数说明
+
+1. 直接执行`check_tmdb_github.py`脚本，同时查询IPv4及IPv6地址，目录生成`Tmdb_host_ipv4`文件，及`Tmdb_host_ipv6`文件；
+2. 带`-G` 参数执行：`check_tmdb_github.py -G`，会在`Tmdb_host_ipv4`文件，及`Tmdb_host_ipv6`文件中追加 Github IPv4 地址；
+
 ## 其他
+
 - [x] 自学薄弱编程基础，大部分代码基于AI辅助生成，此项目过程中，主要人为解决的是：通过 [dnschecker](https://dnschecker.org/) 提交时，通过计算出正确的udp参数，获取正确的csrftoken，携带正确的referer提交！
 - [x] README.md 及 部分代码 参考[GitHub520](https://github.com/521xueweihan/GitHub520)
 - [x] * 本项目仅在本机测试通过，如有问题欢迎提 [issues](https://github.com/cnwikee/CheckTMDB/issues/new)
