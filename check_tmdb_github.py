@@ -34,41 +34,41 @@ def write_file(ipv4_hosts_content: str, ipv6_hosts_content: str, update_time: st
     
     if os.path.exists(output_doc_file_path):
         with open(output_doc_file_path, "r", encoding='utf-8') as old_readme_md:
-            old_hosts_content = old_readme_md.read()            
-            if old_hosts_content:
-                old_ipv4_hosts_str = old_hosts_content.split("```bash")[1].split("```")[0].strip()
-                old_ipv4_hosts_str = old_ipv4_hosts_str.split("# Update time:")[0].strip()
+            old_readme_md_content = old_readme_md.read()            
+            if old_readme_md_content:
+                old_ipv4_block = old_readme_md_content.split("```bash")[1].split("```")[0].strip()
+                old_ipv4_hosts = old_ipv4_block.split("# Update time:")[0].strip()
 
-                old_ipv6_hosts_str = old_hosts_content.split("```bash")[2].split("```")[0].strip()
-                old_ipv6_hosts_str = old_ipv6_hosts_str.split("# Update time:")[0].strip()
+                old_ipv6_block = old_readme_md_content.split("```bash")[2].split("```")[0].strip()
+                old_ipv6_hosts = old_ipv6_block.split("# Update time:")[0].strip()
                 
                 if ipv4_hosts_content != "":
                     new_ipv4_hosts = ipv4_hosts_content.split("# Update time:")[0].strip()
-                    if old_ipv4_hosts_str == new_ipv4_hosts:
+                    if old_ipv4_hosts == new_ipv4_hosts:
                         print("ipv4 host not change")
-                        w_ipv4_hosts = old_ipv4_hosts_str
+                        w_ipv4_block = old_ipv4_block
                     else:
-                        w_ipv4_hosts = new_ipv4_hosts
+                        w_ipv4_block = ipv4_hosts_content
                         write_host_file(ipv4_hosts_content, 'ipv4')
                 else:
                     print("ipv4_hosts_content is null")
-                    w_ipv6_hosts = old_ipv6_hosts_str
+                    w_ipv4_block = old_ipv4_block
 
                 if ipv6_hosts_content != "":
                     new_ipv6_hosts = ipv6_hosts_content.split("# Update time:")[0].strip()
-                    if old_ipv6_hosts_str == new_ipv6_hosts:
+                    if old_ipv6_hosts == new_ipv6_hosts:
                         print("ipv6 host not change")
-                        w_ipv6_hosts = old_ipv6_hosts_str
+                        w_ipv6_block = old_ipv6_block
                     else:
-                        w_ipv6_hosts = new_ipv6_hosts
+                        w_ipv6_block = ipv6_hosts_content
                         write_host_file(ipv6_hosts_content, 'ipv6')
                 else:
                     print("ipv6_hosts_content is null")
-                    w_ipv6_hosts = old_ipv6_hosts_str
+                    w_ipv6_hosts = old_ipv6_hosts
                 
                 with open(template_path, "r", encoding='utf-8') as temp_fb:
                     template_str = temp_fb.read()
-                    hosts_content = template_str.format(ipv4_hosts_str=w_ipv4_hosts, ipv6_hosts_str=w_ipv6_hosts, update_time=update_time)
+                    hosts_content = template_str.format(ipv4_hosts_str=w_ipv4_block, ipv6_hosts_str=w_ipv6_block, update_time=update_time)
 
                     with open(output_doc_file_path, "w", encoding='utf-8') as output_fb:
                         output_fb.write(hosts_content)
