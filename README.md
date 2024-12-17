@@ -23,18 +23,18 @@
 
 ```bash
 # Tmdb Hosts Start
-18.66.122.3     themoviedb.org
-3.160.150.18    www.themoviedb.org
-108.138.26.11   auth.themoviedb.org
-18.66.233.94    api.themoviedb.org
-13.32.121.43    tmdb.org
-18.244.102.106  api.tmdb.org
-143.244.50.84   image.tmdb.org
-108.138.20.106  thetvdb.com
-18.66.115.103   api.thetvdb.com
+18.66.122.47                themoviedb.org
+18.66.122.75                www.themoviedb.org
+108.138.26.11               auth.themoviedb.org
+18.66.233.94                api.themoviedb.org
+13.32.121.129               tmdb.org
+18.244.102.8                api.tmdb.org
+169.150.249.169             image.tmdb.org
+108.138.20.106              thetvdb.com
+18.66.115.103               api.thetvdb.com
 ```
 
-该内容会自动定时更新， 数据更新时间：2024-12-17T16:09:06+08:00
+该内容会自动定时更新， 数据更新时间：2024-12-17T16:33:13+08:00
 
 #### 2.1.2 IPv6地址复制下面的内容
 
@@ -49,7 +49,7 @@
 2400:52e0:1a01::992:1                    image.tmdb.org
 ```
 
-该内容会自动定时更新， 数据更新时间：2024-12-17T16:09:06+08:00
+该内容会自动定时更新， 数据更新时间：2024-12-17T16:33:13+08:00
 
 #### 2.1.3 修改 hosts 文件
 
