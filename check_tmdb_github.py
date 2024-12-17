@@ -243,6 +243,8 @@ def main():
             if fastest_ipv4:
                 ipv4_results.append([fastest_ipv4, domain])
                 print(f"域名 {domain} 的最快IPv4是: {fastest_ipv4}")
+            else:
+                ipv4_results.append([ipv4_ips[0], domain])
         
         # 处理 IPv6 地址
         if ipv6_ips:
@@ -250,6 +252,9 @@ def main():
             if fastest_ipv6:
                 ipv6_results.append([fastest_ipv6, domain])
                 print(f"域名 {domain} 的最快IPv6是: {fastest_ipv6}")
+            else:
+                # 兜底：可能存在无法正确获取 fastest_ipv6 的情况，则将第一个IP赋值
+                ipv6_results.append([ipv6_ips[0], domain])
         
         sleep(1)  # 避免请求过于频繁
     
