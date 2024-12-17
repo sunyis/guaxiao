@@ -50,6 +50,9 @@ def write_file(ipv4_hosts_content: str, ipv6_hosts_content: str, update_time: st
                     else:
                         w_ipv4_hosts = new_ipv4_hosts
                         write_host_file(ipv4_hosts_content, 'ipv4')
+                else:
+                    print("ipv4_hosts_content is null")
+                    w_ipv6_hosts = old_ipv6_hosts_str
 
                 if ipv6_hosts_content != "":
                     new_ipv6_hosts = ipv6_hosts_content.split("# Update time:")[0].strip()
@@ -59,7 +62,9 @@ def write_file(ipv4_hosts_content: str, ipv6_hosts_content: str, update_time: st
                     else:
                         w_ipv6_hosts = new_ipv6_hosts
                         write_host_file(ipv6_hosts_content, 'ipv6')
-
+                else:
+                    print("ipv6_hosts_content is null")
+                    w_ipv6_hosts = old_ipv6_hosts_str
                 
                 with open(template_path, "r", encoding='utf-8') as temp_fb:
                     template_str = temp_fb.read()
