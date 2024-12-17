@@ -64,7 +64,7 @@ def write_file(ipv4_hosts_content: str, ipv6_hosts_content: str, update_time: st
                         write_host_file(ipv6_hosts_content, 'ipv6')
                 else:
                     print("ipv6_hosts_content is null")
-                    w_ipv6_hosts = old_ipv6_hosts
+                    w_ipv6_block = old_ipv6_block
                 
                 with open(template_path, "r", encoding='utf-8') as temp_fb:
                     template_str = temp_fb.read()
