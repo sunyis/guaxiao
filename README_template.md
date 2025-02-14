@@ -12,8 +12,8 @@
 
 ## 文件地址
 
-- tmdb ipv4 hosts文件：`https://github.com/cnwikee/CheckTMDB/blob/main/Tmdb_host_ipv4` ，[链接](https://github.com/cnwikee/CheckTMDB/blob/main/Tmdb_host_ipv4)
-- tmdb ipv6 hosts：`https://github.com/cnwikee/CheckTMDB/blob/main/Tmdb_host_ipv6` ，[链接](https://github.com/cnwikee/CheckTMDB/blob/main/Tmdb_host_ipv6)
+- TMDB IPv4 hosts：`https://raw.githubusercontent.com/cnwikee/CheckTMDB/refs/heads/main/Tmdb_host_ipv4` ，[链接](https://raw.githubusercontent.com/cnwikee/CheckTMDB/refs/heads/main/Tmdb_host_ipv4)
+- TMDB IPv6 hosts：`https://raw.githubusercontent.com/cnwikee/CheckTMDB/refs/heads/main/Tmdb_host_ipv6` ，[链接](https://raw.githubusercontent.com/cnwikee/CheckTMDB/refs/heads/main/Tmdb_host_ipv6)
 
 ## 二、使用方法
 
@@ -65,6 +65,27 @@ hosts 文件在每个系统的位置不一，详情如下：
 3. Mac 命令：`sudo killall -HUP mDNSResponder`
 
 **Tips：** 上述方法无效可以尝试重启机器。
+
+### 2.2 自动方式
+
+#### 2.2.1 安装 SwitchHosts
+
+GitHub 发行版：https://github.com/oldj/SwitchHosts/releases/latest
+
+#### 2.2.2 添加 hosts
+
+点击左上角“+”，并进行以下配置：
+
+- Hosts 类型：`远程`
+- Hosts 标题：任意
+- URL
+    - IPv4：`https://raw.githubusercontent.com/cnwikee/CheckTMDB/refs/heads/main/Tmdb_host_ipv4`
+    - IPv6：`https://raw.githubusercontent.com/cnwikee/CheckTMDB/refs/heads/main/Tmdb_host_ipv6`
+- 自动刷新：`1 小时`
+
+#### 2.2.3 启用 hosts
+
+在左侧边栏启用 hosts，首次使用时软件会自动获取内容。如果无法连接到 GitHub，可以尝试用同样的方法添加 [GitHub520](https://github.com/521xueweihan/GitHub520) hosts。
 
 ## 三、参数说明
 
