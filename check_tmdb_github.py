@@ -9,22 +9,35 @@ from retry import retry
 import socket
 
 DOMAINS = [
-    'themoviedb.org',
-    'www.themoviedb.org',
-    'auth.themoviedb.org',
-    'api.themoviedb.org',
     'tmdb.org',
     'api.tmdb.org',
+    'files.tmdb.org',
+    'themoviedb.org',
+    'api.themoviedb.org',
+    'www.themoviedb.org',
+    'auth.themoviedb.org',
     'image.tmdb.org',
+    'images.tmdb.org',
+    'imdb.com',
+    'www.imdb.com',
+    'secure.imdb.com',
+    's.media-imdb.com',
+    'us.dd.imdb.com',
+    'www.imdb.to',
+    'origin-www.imdb.com',
+    'ia.media-imdb.com',
     'thetvdb.com',
-    'api.thetvdb.com'
+    'api.thetvdb.com',
+    'ia.media-imdb.com',
+    'f.media-amazon.com',
+    'imdb-video.media-imdb.com'
 ]
 
 Tmdb_Host_TEMPLATE = """# Tmdb Hosts Start
 {content}
 # Update time: {update_time}
-# IPv4 Update url: https://github.com/cnwikee/CheckTMDB/blob/main/Tmdb_host_ipv4
-# IPv6 Update url: https://github.com/cnwikee/CheckTMDB/blob/main/Tmdb_host_ipv6
+# IPv4 Update url: https://raw.githubusercontent.com/cnwikee/CheckTMDB/refs/heads/main/Tmdb_host_ipv4
+# IPv6 Update url: https://raw.githubusercontent.com/cnwikee/CheckTMDB/refs/heads/main/Tmdb_host_ipv6
 # Star me: https://github.com/cnwikee/CheckTMDB
 # Tmdb Hosts End\n"""
 
