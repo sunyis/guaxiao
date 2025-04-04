@@ -1,27 +1,27 @@
 # Tmdb Hosts Start
-13.33.141.21                tmdb.org
-18.173.5.53                 api.tmdb.org
-18.173.5.61                 files.tmdb.org
-13.33.141.83                themoviedb.org
+18.173.5.71                 tmdb.org
+18.173.5.121                api.tmdb.org
+18.173.5.82                 files.tmdb.org
+143.204.237.50              themoviedb.org
 143.204.237.74              api.themoviedb.org
-13.33.141.83                www.themoviedb.org
-143.204.237.70              auth.themoviedb.org
-138.199.9.104               image.tmdb.org
-138.199.9.104               images.tmdb.org
+143.204.237.50              www.themoviedb.org
+143.204.237.53              auth.themoviedb.org
+143.244.50.86               image.tmdb.org
+143.244.50.86               images.tmdb.org
 52.94.225.248               imdb.com
 18.173.7.57                 www.imdb.com
-52.94.237.74                secure.imdb.com
+52.94.225.248               secure.imdb.com
 18.173.7.57                 s.media-imdb.com
-52.94.225.248               us.dd.imdb.com
+52.94.228.167               us.dd.imdb.com
 18.173.7.57                 www.imdb.to
-98.82.155.134               origin-www.imdb.com
-18.172.255.110              ia.media-imdb.com
-13.33.125.112               thetvdb.com
+44.215.137.99               origin-www.imdb.com
+143.204.239.232             ia.media-imdb.com
+143.204.233.109             thetvdb.com
 18.173.8.110                api.thetvdb.com
-18.172.255.110              ia.media-imdb.com
+143.204.239.232             ia.media-imdb.com
 199.232.45.16               f.media-amazon.com
-13.33.141.85                imdb-video.media-imdb.com
-# Update time: 2025-04-04T06:22:58+08:00
+143.204.237.38              imdb-video.media-imdb.com
+# Update time: 2025-04-04T18:26:35+08:00
 # IPv4 Update url: https://raw.githubusercontent.com/cnwikee/CheckTMDB/refs/heads/main/Tmdb_host_ipv4
 # IPv6 Update url: https://raw.githubusercontent.com/cnwikee/CheckTMDB/refs/heads/main/Tmdb_host_ipv6
 # Star me: https://github.com/cnwikee/CheckTMDB
